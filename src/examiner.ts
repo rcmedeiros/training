@@ -1,18 +1,10 @@
-import { Choice, Question } from './model';
+import { Choice, Option, Question } from './model';
 import { FG_GREEN, FG_RED } from './constants';
 import checkbox, { Separator as CheckboxSeparator } from '@inquirer/checkbox';
 import select, { Separator as SelectSeparator } from '@inquirer/select';
 
 import { QuestionType } from './model';
 import confirm from '@inquirer/confirm';
-
-type Option = {
-  value: string;
-  name?: string;
-  description?: string;
-  disabled?: boolean | string;
-  type?: never;
-};
 
 export type Result = {
   stopTraining: boolean;

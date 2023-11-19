@@ -1,12 +1,13 @@
 export class ProgressBar {
   private readonly total: number;
-  private current: number = 0;
+  private current: number;
 
   private readonly COMPLETE: string = '\u2588';
   private readonly INCOMPLETE: string = '\u2591';
   private percentage: number = 0;
 
-  public constructor(total: number) {
+  public constructor(current: number, total: number) {
+    this.current = current;
     this.total = total;
   }
 

@@ -3,12 +3,14 @@ import { QuestionType } from './question_type';
 import { Shuffler } from '../shuffler';
 
 export class Question {
+  private readonly _index: number;
   private readonly _statement: string = '';
   private readonly _questionType: QuestionType = QuestionType.SINGLE_CHOICE;
   private readonly _choices: Array<Choice> = [];
   private readonly _correctAnswer: Array<string>;
 
-  public constructor(text: string) {
+  public constructor(text: string, index: number) {
+    this._index = index;
     const lines: Array<string> = text.split('\n');
 
     while (lines[0].trim()[0] !== '[') {
@@ -50,5 +52,9 @@ export class Question {
 
   public get correctAnswer(): Array<string> {
     return this._correctAnswer;
+  }
+
+  public get index(): number {
+    return this._index;
   }
 }
