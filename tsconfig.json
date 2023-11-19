@@ -1,0 +1,31 @@
+{
+    "compilerOptions": {
+        "module": "commonjs",
+        "experimentalDecorators": true,
+        "esModuleInterop": true,
+        "target": "es2022",
+        "noImplicitAny": true,
+        "alwaysStrict": true,
+        "noUnusedLocals": true,
+        "moduleResolution": "node",
+        "skipLibCheck": true,
+        "removeComments": true,
+        "listFiles": false,
+        "sourceMap": false,
+        "inlineSourceMap": false,
+        "inlineSources": false,
+        "listEmittedFiles": false,
+        "declaration": true,
+        "useDefineForClassFields": false,
+        "outDir": "dist",
+        "baseUrl": "./",
+        "paths": {
+            "*": [
+                "node_modules/*"
+            ]
+        }
+    },
+    "include": [
+        "src/**/*"
+    ]
+}
