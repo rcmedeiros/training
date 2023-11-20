@@ -1,4 +1,5 @@
 import { Assessment } from './assessment';
+import { I18n } from './constants';
 import { Option } from './model';
 import fs from 'fs';
 import path from 'path';
@@ -11,7 +12,7 @@ const EXT: string = '.qns';
     .readdirSync(process.cwd())
     .filter((fileName: string) => fileName.endsWith(EXT) && !fileName.startsWith('~'))
     .map((fileName: string) => ({
-      name: `${fileName.substring(0, fileName.lastIndexOf(EXT)).replaceAll('-', ' ')} (NEW)`,
+      name: `${fileName.substring(0, fileName.lastIndexOf(EXT)).replaceAll(/[_-]/g, ' ')} ${I18n.NEW}`,
       value: fileName,
     }));
 
@@ -19,21 +20,17 @@ const EXT: string = '.qns';
     const choice: Option = choices[i];
     const started: string = `~${choice.value}`;
     if (choice.value[0] !== '~' && fs.existsSync(path.join(process.cwd(), started))) {
-      choices.splice(i + 1, 0, {
-        name: `${choice.name.substring(0, choice.name.length - 6)} (CONTINUE...)`,
+      choices.splice(i, 0, {
+        name: `${choice.name.substring(0, choice.name.length - I18n.NEW_LENGTH - 1)} ${I18n.CONTINUE}`,
         value: started,
       });
     }
   }
 
-  console.debug(JSON.stringify(choices));
-
   const fileName: string = await select({
-    message: 'Select a collection',
+    message: I18n.SELECT_A_COLLECTION,
     choices,
   });
 
   await new Assessment(fileName).start();
-
-  console.info('\nCome back soon!');
 })();

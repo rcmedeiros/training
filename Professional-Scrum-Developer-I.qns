@@ -1053,7 +1053,7 @@ The CEO asks the Developers to add a "very important" item to a Sprint that is i
 What is the recommended size for a Scrum Team? (choose the best answer)
 [ ] Minimum of 7.
 [ ] 9.
-[X] Typically 10 or fewer people.
+[X] Typically 9 or fewer people.
 [ ] 7 plus or minus 2.
 
 
@@ -1092,7 +1092,7 @@ Who can do the work to ensure the Product Backlog is refined to a state that it 
 
 SCRUM stands for:
 [ ] Super Creative Really Useful Method.
-[ ] Self organising Collaborative &amp; Reflective Universal Method.
+[ ] Self organising Collaborative & Reflective Universal Method.
 [ ] Safe Controlled Response Under Management.
 [X] Nothing. Its not an acronym.
 
@@ -1135,8 +1135,8 @@ Who may be best positioned to decide who will be the Scrum Master for a new Scru
 
 
 True or False: A Scrum Team must be 10 or fewer people.
-[ ] True.
-[X] False.
+[X] True.
+[ ] False.
 
 
 Continuous Integration (CI) provides the following advantages: (select all that apply)
@@ -1401,7 +1401,7 @@ What kind of activity can be done in the Product Backlog Refinement?
 What is the recommended size of the Development Team?
 [ ] 7 ± 2.
 [ ] 5 ± 4.
-[X] 6 ± 3.
+[X] 6 ± 2.
 [ ] 9 ± 3.
 
 
@@ -1587,9 +1587,9 @@ What is the usual comparison of Product Backlog Items average size in the Produc
 
 
 Which is NOT true about Efferent Coupling?
-[ ] Classes with high efferent will affect other classes when changes are made.
+[X] Classes with high efferent will affect other classes when changes are made.
 [ ] A large Efferent Coupling can indicate that a class is unfocused and may also indicate that it is unstable since it depends on the stability of all the types to which it is coupled.
-[X] Classes with high Efferent Coupling will receive the effects of changes or defects in other classes.
+[ ] Classes with high Efferent Coupling will receive the effects of changes or defects in other classes.
 [ ] It is a Code Quality metric.
 
 

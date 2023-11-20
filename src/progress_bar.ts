@@ -7,8 +7,8 @@ export class ProgressBar {
   private percentage: number = 0;
 
   public constructor(current: number, total: number) {
-    this.current = current;
     this.total = total;
+    this.update(current);
   }
 
   private getBar(): string {

@@ -1,5 +1,5 @@
 import { Choice, Option, Question } from './model';
-import { FG_GREEN, FG_RED } from './constants';
+import { FG_GREEN, FG_RED, I18n } from './constants';
 import checkbox, { Separator as CheckboxSeparator } from '@inquirer/checkbox';
 import select, { Separator as SelectSeparator } from '@inquirer/select';
 
@@ -8,40 +8,42 @@ import confirm from '@inquirer/confirm';
 
 export type Result = {
   stopTraining: boolean;
-  correctAnswer?: boolean;
+  retryQuestion: boolean;
 };
 
-const PAUSE_TRAINING: Option = { name: 'Pause training', value: 'pause' };
+const PAUSE: string = 'pause';
+const PAUSE_TRAINING: Option = { name: I18n.PAUSE, value: PAUSE };
+const DIVIDER: string = '\n--------------------------------------------------------------------------------';
 
 export class Examiner {
   private async feedback(question: Question, answer: string | Array<string>): Promise<boolean> {
-    let isCorrect: boolean = true;
+    let retryQuestion: boolean = true;
     console.info('');
     if (question.isCorrect(answer)) {
-      console.info(`${FG_GREEN}CORRECT!!!`);
+      console.info(`${FG_GREEN}${I18n.CORRECT}\n`);
+      retryQuestion = await confirm({ message: I18n.RETRY_QUESTION, default: false });
     } else {
       if (question.questionType === QuestionType.SINGLE_CHOICE) {
-        console.info(`${FG_RED}INCORRECT. Correct answer is: ${question.correctAnswer[0]}`);
+        console.info(`${FG_RED}${I18n.INCORRECT_SINGLE} ${question.correctAnswer[0]}\n`);
       } else {
-        console.info(`${FG_RED}Correct answer are:`);
+        console.info(`${FG_RED}${I18n.INCORRECT_MULTIPLE}`);
         question.correctAnswer.forEach((a: string) => {
           console.info(`  ${a}`);
         });
+        console.info('');
       }
-      isCorrect = false;
+      await confirm({ message: I18n.RETRY_STATEMENT, default: true });
     }
-    console.info('');
-    await confirm({ message: '', default: true });
-    console.info('\n--------------------------------------------------------------------------------');
-    return isCorrect;
+    console.info(DIVIDER);
+    return retryQuestion;
   }
 
   private async getResult(question: Question, answer: string | Array<string>): Promise<Result> {
-    if (answer.includes('pause')) return { stopTraining: true };
+    if (answer.includes(PAUSE)) return { stopTraining: true, retryQuestion: true };
 
     return {
       stopTraining: false,
-      correctAnswer: await this.feedback(question, answer),
+      retryQuestion: await this.feedback(question, answer),
     };
   }
 
@@ -56,7 +58,7 @@ export class Examiner {
       message: question.statement,
       choices,
       loop: false,
-      clearPromptOnDone: true,
+      pageSize: 13,
     });
     return this.getResult(question, answer);
   }
@@ -73,7 +75,7 @@ export class Examiner {
       choices,
       required: true,
       loop: false,
-      clearPromptOnDone: true,
+      pageSize: 13,
     });
     return this.getResult(question, answer);
   }

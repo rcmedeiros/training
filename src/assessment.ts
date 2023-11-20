@@ -1,9 +1,10 @@
 import { Examiner, Result } from './examiner';
+import { I18n, RESET } from './constants';
 
 import { ProgressBar } from './progress_bar';
 import { Question } from './model';
-import { RESET } from './constants';
 import { Shuffler } from './shuffler';
+import figlet from 'figlet';
 import fs from 'fs';
 import path from 'path';
 
@@ -28,7 +29,9 @@ export class Assessment {
       content = fs.readFileSync(path.join(process.cwd(), fileName.substring(1))).toString();
     } else {
       this.saveFile = path.join(process.cwd(), `~${fileName}`);
-      fs.unlinkSync(this.saveFile);
+      if (fs.existsSync(this.saveFile)) {
+        fs.unlinkSync(this.saveFile);
+      }
       content = fs.readFileSync(path.join(process.cwd(), fileName)).toString();
     }
     content = content
@@ -59,9 +62,9 @@ export class Assessment {
       process.stdout.write(RESET);
       const question: Question = this.questions.shift();
       console.info(`${bar}\n`);
-      const { stopTraining, correctAnswer }: Result = await examiner.ask(question);
+      const { stopTraining, retryQuestion }: Result = await examiner.ask(question);
       next = !stopTraining;
-      if (!correctAnswer) {
+      if (retryQuestion) {
         this.questions.splice(Math.floor(Math.random() * (this.questions.length + 1)), 0, question);
       } else {
         fs.appendFileSync(this.saveFile, `${question.index.toString()},`);
@@ -70,5 +73,10 @@ export class Assessment {
       bar.update(this.total - this.questions.length);
       console.clear();
     }
+
+    if (!this.questions.length) {
+      console.info(figlet.textSync(I18n.THE_END, { font: 'Star Wars' }));
+    }
+    console.info(`\n${I18n.BYE}`);
   }
 }
